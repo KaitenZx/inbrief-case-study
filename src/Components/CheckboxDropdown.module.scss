@@ -1,0 +1,87 @@
+// src/components/CheckboxDropdown/CheckboxDropdown.module.scss
+
+.dropdown {
+	position: relative;
+	display: inline-block;
+	width: 200px;
+}
+
+.dropdownButton {
+	width: 100%;
+	padding: 6px 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	background-color: #fff;
+	font-size: 16px;
+	cursor: pointer;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	transition: border-color 0.3s ease;
+	flex-shrink: 0;
+
+	&:hover {
+		border-color: #007bff;
+	}
+}
+
+.dropdownContent {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	width: 100%;
+	background-color: #f9f9f9;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	z-index: 10;
+	//padding: 10px 0;
+	max-height: 200px;
+	overflow-y: auto;
+}
+
+.dropdownItem {
+	display: flex;
+	align-items: center;
+	padding: 8px 16px;
+	cursor: pointer;
+	transition: background-color 0.2s;
+
+	&:hover {
+		background-color: #eef;
+	}
+
+	input {
+		margin-right: 10px;
+	}
+}
+
+.resetButton {
+	display: flex;
+	padding: 6px 12px;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	border-radius: 4px;
+	background-color: #007bff;
+	color: white;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+
+	&:hover {
+		background-color: #d32f2f;
+	}
+}
+
+/* Адаптивные стили для мобильных устройств */
+@media (max-width: 768px) {
+	.dropdown {
+		width: 100%;
+	}
+
+	//.dropdownButton {
+	//	font-size: 12px;
+	//}
+}
