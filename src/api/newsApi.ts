@@ -5,21 +5,25 @@ import { NewsArticle } from './types';
 
 // Базовый URL и API ключ для NewsAPI
 const NEWS_API_BASE_URL = 'https://newsapi.org/v2';
-const NEWS_API_KEY = process.env.REACT_APP_NEWSAPI_KEY
+const NEWS_API_KEY = process.env.REACT_APP_NEWSAPI_KEY;
 
-// Получение новостей с учетом ключевых слов, источников и дат
-export const fetchNewsFromNewsAPI = async (keywords: string, sources: string, fromDate: string, toDate: string, page: number): Promise<NewsArticle[]> => {
+// Получение новостей с учетом ключевых слов и дат
+export const fetchNewsFromNewsAPI = async (
+	keywords: string,
+	fromDate: string,
+	toDate: string,
+	page: number
+): Promise<NewsArticle[]> => {
 	try {
 		const response = await axios.get(`${NEWS_API_BASE_URL}/everything`, {
 			params: {
 				apiKey: NEWS_API_KEY,
-				q: keywords || undefined,             // Поиск по ключевым словам
-				sources: sources || undefined,        // Фильтр по источникам
-				from: fromDate || undefined,          // Дата начала
-				to: toDate || undefined,              // Дата конца
-				page: page || 1,                      // Номер страницы
-				pageSize: 10,                         // Количество статей на странице
-				language: 'en',                       // Язык (например, английский)
+				q: keywords || undefined,
+				from: fromDate || undefined,
+				to: toDate || undefined,
+				page: page || 1,
+				pageSize: 10,
+				language: 'en',
 			},
 		});
 
@@ -39,17 +43,20 @@ export const fetchNewsFromNewsAPI = async (keywords: string, sources: string, fr
 	}
 };
 
-// Получение топ-новостей с учетом категории и страны
-export const fetchTopHeadlinesFromNewsAPI = async (category: string, country: string, page: number): Promise<NewsArticle[]> => {
+// Получение новостей с учетом категории
+export const fetchTopHeadlinesFromNewsAPI = async (
+	category: string,
+	page: number
+): Promise<NewsArticle[]> => {
 	try {
 		const response = await axios.get(`${NEWS_API_BASE_URL}/top-headlines`, {
 			params: {
 				apiKey: NEWS_API_KEY,
-				category: category || undefined,     // Фильтр по категориям
-				country: country || 'us',            // Фильтр по стране (по умолчанию США)
-				page: page || 1,                     // Номер страницы
-				pageSize: 10,                        // Количество статей на странице
-				language: 'en',                      // Язык (например, английский)
+				category: category || undefined,
+				page: page || 1,
+				pageSize: 10,
+				language: 'en',
+				country: 'us',  // По умолчанию устанавливаем страну, можно изменить в зависимости от нужд
 			},
 		});
 

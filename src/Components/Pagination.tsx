@@ -1,7 +1,7 @@
 // src/components/Pagination/Pagination.tsx
 
 import React from 'react';
-import styles from './Pagination.module.scss';
+import styles from '../styles/Pagination.module.scss';
 
 interface PaginationProps {
 	currentPage: number;
@@ -9,8 +9,9 @@ interface PaginationProps {
 	onPageChange: (page: number) => void;
 }
 
+const MAX_VISIBLE_PAGES = 10; // Максимальное количество видимых страниц
+
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
-	const MAX_VISIBLE_PAGES = 10; // Максимальное количество видимых страниц
 
 	// Функция для вычисления диапазона отображаемых кнопок страниц
 	const getPageNumbers = () => {

@@ -3,7 +3,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NewsArticle, PersonalizationState, FiltersState, NewsState } from '../api/types'; // Импортируем интерфейсы
 
-const initialState: NewsState = {
+interface SearchState {
+	query: string;
+}
+
+const initialState: NewsState & SearchState = {
 	articles: [],
 	personalization: {
 		author: '',
@@ -13,9 +17,10 @@ const initialState: NewsState = {
 	filters: {
 		category: '',
 		source: '',
-		startDate: '', // Инициализируем поле startDate
-		endDate: '',   // Инициализируем поле endDate
+		startDate: '',
+		endDate: '',
 	},
+	query: '', // Новое поле для хранения поисковых ключевых слов
 };
 
 const newsSlice = createSlice({
@@ -31,9 +36,12 @@ const newsSlice = createSlice({
 		setFilters(state, action: PayloadAction<FiltersState>) {
 			state.filters = action.payload;
 		},
+		setSearchQuery(state, action: PayloadAction<string>) {
+			state.query = action.payload; // Обновляем поисковые ключевые слова
+		},
 	},
 });
 
-export const { setArticles, setPersonalization, setFilters } = newsSlice.actions;
+export const { setArticles, setPersonalization, setFilters, setSearchQuery } = newsSlice.actions;
 
 export default newsSlice.reducer;

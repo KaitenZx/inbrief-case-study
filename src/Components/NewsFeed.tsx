@@ -2,20 +2,22 @@
 
 import React, { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import styles from './NewsFeed.module.scss';
+import styles from '../styles/NewsFeed.module.scss';
 import { RootState } from '../Store/store';
 import NewsItem from './NewsItem';
 import Pagination from './Pagination';
 
+const ARTICLES_PER_PAGE = 10;
+
 const NewsFeed: React.FC = () => {
 	const articles = useSelector((state: RootState) => state.news.articles); // Получаем уже отфильтрованные статьи из Redux
 	const [currentPage, setCurrentPage] = useState(1); // Состояние для текущей страницы
-	const articlesPerPage = 10; // Количество статей на странице
+	// Количество статей на странице
 
 	// Расчет статей для отображения на текущей странице
 	const currentArticles = useMemo(() => {
-		const startIndex = (currentPage - 1) * articlesPerPage;
-		const endIndex = startIndex + articlesPerPage;
+		const startIndex = (currentPage - 1) * ARTICLES_PER_PAGE;
+		const endIndex = startIndex + ARTICLES_PER_PAGE;
 		return articles.slice(startIndex, endIndex);
 	}, [articles, currentPage]);
 
@@ -26,7 +28,7 @@ const NewsFeed: React.FC = () => {
 	};
 
 	// Общее количество страниц
-	const totalPages = Math.ceil(articles.length / articlesPerPage);
+	const totalPages = Math.ceil(articles.length / ARTICLES_PER_PAGE);
 
 	return (
 		<div className={styles.newsFeed}>

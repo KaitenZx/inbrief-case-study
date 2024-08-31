@@ -1,55 +1,46 @@
-// src/components/Filters/Filters.tsx
-
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styles from './Filters.module.scss';
+import styles from '../styles/Filters.module.scss';
 import { RootState } from '../Store/store';
 import { setArticles, setFilters } from '../Store/newsSlice';
 import CheckboxDropdown from './CheckboxDropdown';
-import { CATEGORIES, normalizeCategories } from '../utils/categories';
-import { fetchAggregatedNews } from '../api/aggregateNews'; // Функция для выполнения запросов к API
+import { CATEGORIES } from '../utils/categories'; // Используем общий список категорий
+import { fetchAggregatedNews } from '../api/aggregateNews';
 
 const Filters: React.FC = () => {
 	const dispatch = useDispatch();
 	const filters = useSelector((state: RootState) => state.news.filters);
+	const searchQuery = useSelector((state: RootState) => state.news.query); // Получаем поисковые ключевые слова из состояния
 
-	const [selectedCategory, setSelectedCategory] = useState(filters.category ? [filters.category] : []);
+	const [selectedCategory, setSelectedCategory] = useState(filters.category || '');
 	const [selectedStartDate, setSelectedStartDate] = useState(filters.startDate || '');
 	const [selectedEndDate, setSelectedEndDate] = useState(filters.endDate || '');
-	const [selectedSource, setSelectedSource] = useState(filters.source ? [filters.source] : []);
+	const [selectedSource, setSelectedSource] = useState(filters.source || '');
 
-	// Динамически изменяем доступные категории на основе выбранных источников
-	const availableCategories = selectedSource.length > 0
-		? normalizeCategories(selectedSource.flatMap((source) => CATEGORIES[source as keyof typeof CATEGORIES]))
-		: normalizeCategories(Object.values(CATEGORIES).flat());
+	// Получаем сегодняшнюю дату в формате YYYY-MM-DD
+	const today = new Date().toISOString().split('T')[0];
 
-	// Проверка доступности выбранной категории
+	// Обновляем фильтры при изменении состояния
 	useEffect(() => {
-		if (selectedCategory[0] && !availableCategories.includes(selectedCategory[0])) {
-			setSelectedCategory([]);
-		}
-	}, [selectedCategory, availableCategories]);
-
-	useEffect(() => {
-		// Обновляем фильтры в глобальном состоянии
 		dispatch(setFilters({
-			category: selectedCategory[0] || '',
-			source: selectedSource[0] || '',
+			category: selectedCategory,
+			source: selectedSource,
 			startDate: selectedStartDate,
 			endDate: selectedEndDate,
 		}));
 
-		// Запрос к API с учетом фильтров
 		const fetchFilteredNews = async () => {
+			if (!searchQuery.trim()) return; // Выполняем запрос только если есть что-то в строке поиска
+
 			try {
 				const articles = await fetchAggregatedNews(
-					'', // Ключевые слова не используются при фильтрации
-					selectedCategory[0] || '',
-					'', // Авторы не используются при фильтрации
-					selectedStartDate,
-					selectedEndDate,
-					selectedSource, // Передаем массив источников
-					1 // Номер страницы
+					searchQuery,             // Используем ключевые слова из состояния
+					selectedCategory,        // Категория
+					'',                      // Авторы не используются
+					selectedStartDate,       // Начальная дата
+					selectedEndDate,         // Конечная дата
+					selectedSource ? [selectedSource] : [], // Источники
+					1                        // Номер страницы
 				);
 				dispatch(setArticles(articles));
 			} catch (error) {
@@ -57,28 +48,26 @@ const Filters: React.FC = () => {
 			}
 		};
 
-		// Выполняем запрос только если выбран хотя бы один фильтр
-		if (selectedCategory[0] || selectedSource[0] || selectedStartDate || selectedEndDate) {
+		// Проверяем наличие строки поиска и хотя бы одного фильтра
+		if ((selectedCategory || selectedSource || selectedStartDate || selectedEndDate) && searchQuery.trim()) {
 			fetchFilteredNews();
 		}
-	}, [selectedCategory, selectedStartDate, selectedEndDate, selectedSource, dispatch]);
+	}, [selectedCategory, selectedStartDate, selectedEndDate, selectedSource, searchQuery, dispatch]);
 
 	return (
 		<div className={styles.filters}>
 			<CheckboxDropdown
-				label="Category"
-				options={availableCategories}
-				selectedOptions={selectedCategory}
-				onChange={setSelectedCategory}
-				multiple={false}
+				label="Source"
+				options={['newsapi', 'guardian', 'nyt']}
+				selectedOption={selectedSource}
+				onChange={setSelectedSource}
 			/>
 
 			<CheckboxDropdown
-				label="Source"
-				options={['newsapi', 'guardian', 'nyt']}
-				selectedOptions={selectedSource}
-				onChange={setSelectedSource}
-				multiple={false}
+				label="Category"
+				options={CATEGORIES}
+				selectedOption={selectedCategory}
+				onChange={setSelectedCategory}
 			/>
 
 			<input
@@ -88,6 +77,7 @@ const Filters: React.FC = () => {
 				onChange={(e) => setSelectedStartDate(e.target.value)}
 				className={styles.dateInput}
 				placeholder="Start Date"
+				max={today}  // Ограничиваем выбор сегодняшним днем
 			/>
 			<input
 				type="date"
@@ -96,6 +86,7 @@ const Filters: React.FC = () => {
 				onChange={(e) => setSelectedEndDate(e.target.value)}
 				className={styles.dateInput}
 				placeholder="End Date"
+				max={today}  // Ограничиваем выбор сегодняшним днем
 			/>
 		</div>
 	);

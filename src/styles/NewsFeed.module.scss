@@ -1,7 +1,12 @@
+@import './mixins';
+
+
 .newsFeed {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	padding: 20px;
+	gap: 16px;
 }
 
 p {
