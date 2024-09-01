@@ -51,7 +51,10 @@ cd your-repository
 
 Use the following command to build the Docker image for the application:
 
+```bash
 docker-compose build
+```
+
 
 This command will read the Dockerfile and docker-compose.yml files and build the necessary Docker images for the application.
 
@@ -59,7 +62,9 @@ This command will read the Dockerfile and docker-compose.yml files and build the
 
 After the build process is complete, you can start the application with:
 
+```bash
 docker-compose up
+```
 This will start the application along with any other services defined in the docker-compose.yml file, such as a database or a backend API service.
 
 ### Access the Application:
