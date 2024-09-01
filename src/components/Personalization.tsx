@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { setPersonalization, setArticles, setLoading } from '../pstore/newsSlice';
+import { setPersonalization, setArticles, setLoading } from '../store/newsSlice';
 import { fetchAggregatedNews } from '../api/aggregateNews';
 import styles from '../styles/Personalization.module.scss';
 import { CATEGORIES } from '../utils/categories';
