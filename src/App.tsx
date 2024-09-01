@@ -8,7 +8,7 @@ import NewsFeed from './components/NewsFeed';
 import { fetchAggregatedNews } from './api/aggregateNews';
 import styles from './App.module.scss';
 
-const App: React.FC = () => {
+const App = () => {
   const [filtersIsOpen, setFiltersIsOpen] = useState(false);
   const dispatch = useDispatch();
 

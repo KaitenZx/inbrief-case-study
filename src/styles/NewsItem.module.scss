@@ -42,6 +42,10 @@
 	font-size: 1.5em;
 	margin: 0 0 8px;
 
+	@include respond-to(small) {
+		font-size: 1rem;
+	}
+
 	a {
 		text-decoration: none;
 		color: #333;
@@ -69,6 +73,10 @@
 	color: #444;
 	margin: 0 0 16px;
 	text-align: left;
+
+	@include respond-to(small) {
+		font-size: 0.8rem;
+	}
 }
 
 .category {
