@@ -1,13 +1,9 @@
-// src/api/newsApi.ts
-
 import axios from 'axios';
-import { NewsArticle } from './types';
+import type { NewsArticle } from '../utils/types';
 
-// Базовый URL и API ключ для NewsAPI
 const NEWS_API_BASE_URL = 'https://newsapi.org/v2';
 const NEWS_API_KEY = process.env.REACT_APP_NEWSAPI_KEY;
 
-// Получение новостей с учетом ключевых слов и дат
 export const fetchNewsFromNewsAPI = async (
 	keywords: string,
 	fromDate: string,
@@ -22,7 +18,7 @@ export const fetchNewsFromNewsAPI = async (
 				from: fromDate || undefined,
 				to: toDate || undefined,
 				page: page || 1,
-				pageSize: 10,
+				pageSize: 20,
 				language: 'en',
 			},
 		});
@@ -43,7 +39,6 @@ export const fetchNewsFromNewsAPI = async (
 	}
 };
 
-// Получение новостей с учетом категории
 export const fetchTopHeadlinesFromNewsAPI = async (
 	category: string,
 	page: number
@@ -54,9 +49,9 @@ export const fetchTopHeadlinesFromNewsAPI = async (
 				apiKey: NEWS_API_KEY,
 				category: category || undefined,
 				page: page || 1,
-				pageSize: 10,
+				pageSize: 20,
 				language: 'en',
-				country: 'us',  // По умолчанию устанавливаем страну, можно изменить в зависимости от нужд
+				country: 'us',
 			},
 		});
 

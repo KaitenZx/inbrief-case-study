@@ -3,9 +3,8 @@
 import { fetchNewsFromNewsAPI, fetchTopHeadlinesFromNewsAPI } from './newsApi';
 import { fetchNewsFromGuardian } from './guardianApi';
 import { fetchNewsFromNYT } from './nytApi';
-import { NewsArticle } from './types';
+import type { NewsArticle } from '../utils/types';
 
-// Агрегация новостей из всех источников
 export const fetchAggregatedNews = async (
 	keywords: string,
 	categories: string,
@@ -14,13 +13,13 @@ export const fetchAggregatedNews = async (
 	toDate: string,
 	sources: string[],
 	page: number = 1,
-	useCategoriesEndpoint = false  // Новый параметр для определения какого эндпоинта использовать
+	useCategoriesEndpoint = false
 ): Promise<NewsArticle[]> => {
 	try {
 		let allArticles: NewsArticle[] = [];
 
 		if (sources.length === 0 || sources.includes('newsapi')) {
-			// Используем разные эндпоинты NewsAPI в зависимости от флага
+
 			if (useCategoriesEndpoint) {
 				const newsApiArticles = await fetchTopHeadlinesFromNewsAPI(categories, page);
 				allArticles = allArticles.concat(newsApiArticles);
@@ -40,7 +39,6 @@ export const fetchAggregatedNews = async (
 			allArticles = allArticles.concat(nytArticles);
 		}
 
-		// Убираем дублированные новости (по URL)
 		const uniqueArticles = Array.from(new Set(allArticles.map((a) => a.url))).map((url) => {
 			return allArticles.find((a) => a.url === url)!;
 		});

@@ -1,3 +1,5 @@
+@import './styles/mixins';
+
 .container {
   display: flex;
   flex-direction: column;
@@ -6,9 +8,7 @@
   height: 100vh;
 }
 
-* {
-  box-sizing: border-box;
-}
+
 
 
 
@@ -33,6 +33,10 @@
   align-items: center;
   justify-content: flex-start;
   gap: 20px;
+
+  @include respond-to(small) {
+    gap: 10px;
+  }
 }
 
 .button {
@@ -40,12 +44,14 @@
   align-items: center;
   justify-content: center;
   height: 27.5px;
+  padding: 0 15px;
   font-size: 12px;
-  background-color: #007bff;
+  background-color: $main-color;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+
 }
 
 .button:hover {

@@ -1,16 +1,12 @@
-// src/api/guardianApi.ts
-
 import axios from 'axios';
-import { NewsArticle } from './types';
+import type { NewsArticle } from '../utils/types';
 
-// Базовый URL и API ключ для The Guardian
 const GUARDIAN_API_BASE_URL = 'https://content.guardianapis.com';
-const GUARDIAN_API_KEY = process.env.REACT_APP_GUARDIAN_API_KEY;  // Убедитесь, что ключ установлен в окружении
+const GUARDIAN_API_KEY = process.env.REACT_APP_GUARDIAN_API_KEY;
 
-// Функция для получения новостей из The Guardian с учетом фильтров
 export const fetchNewsFromGuardian = async (
 	categories: string,
-	keywords: string,   // Изменяем параметр на keywords для соответствия API
+	keywords: string,
 	fromDate: string,
 	toDate: string,
 	page: number
@@ -19,27 +15,26 @@ export const fetchNewsFromGuardian = async (
 		const response = await axios.get(`${GUARDIAN_API_BASE_URL}/search`, {
 			params: {
 				'api-key': GUARDIAN_API_KEY,
-				'section': categories || undefined,   // Фильтр по секциям (категориям)
-				'q': keywords || undefined,          // Фильтр по ключевым словам (включая авторов, если они упоминаются)
-				'from-date': fromDate || undefined,  // Фильтр по дате начала
-				'to-date': toDate || undefined,      // Фильтр по дате конца
-				'page': page || 1,                   // Номер страницы для пагинации
-				'page-size': 10,                     // Количество статей на странице
-				'show-fields': 'headline,thumbnail,byline,trailText,body',  // Поля для включения в ответ
+				'section': categories || undefined,
+				'q': keywords || undefined,
+				'from-date': fromDate || undefined,
+				'to-date': toDate || undefined,
+				'page': page || 1,
+				'page-size': 20,
+				'show-fields': 'headline,thumbnail,byline,trailText,body',
 			},
 		});
 
-		// Обработка данных ответа API для соответствия интерфейсу NewsArticle
 		return response.data.response.results.map((article: any) => ({
 			source: 'The Guardian',
-			author: article.fields?.byline || 'Unknown',    // Проверка наличия поля
+			author: article.fields?.byline || 'Unknown',
 			title: article.webTitle,
-			description: article.fields?.trailText || '',   // Проверка наличия поля
+			description: article.fields?.trailText || '',
 			url: article.webUrl,
-			urlToImage: article.fields?.thumbnail || '',    // Проверка наличия поля
+			urlToImage: article.fields?.thumbnail || '',
 			publishedAt: article.webPublicationDate,
-			content: article.fields?.body || '',            // Проверка наличия поля
-			category: article.sectionName,                  // Добавляем категорию, если нужна
+			content: article.fields?.body || '',
+			category: article.sectionName,
 		}));
 	} catch (error) {
 		console.error('Error fetching news from The Guardian:', error);

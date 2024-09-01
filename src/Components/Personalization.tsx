@@ -1,30 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { setPersonalization, setArticles } from '../Store/newsSlice';
+import { setPersonalization, setArticles, setLoading } from '../store/newsSlice';
 import { fetchAggregatedNews } from '../api/aggregateNews';
 import styles from '../styles/Personalization.module.scss';
-import { CATEGORIES } from '../utils/categories'; // Используем общий список категорий
+import { CATEGORIES } from '../utils/categories';
 
 const Personalization: React.FC = () => {
 	const dispatch = useDispatch();
-	const popupRef = useRef<HTMLDivElement | null>(null); // Ref для отслеживания кликов вне компонента
+	const popupRef = useRef<HTMLDivElement | null>(null);
 	const [isOpen, setIsOpen] = useState(false);
 
-	// Состояние для текущих предпочтений
 	const [selectedSource, setSelectedSource] = useState<string[]>(JSON.parse(localStorage.getItem('selectedSource') || '[]'));
 	const [selectedCategories, setSelectedCategories] = useState<string[]>(JSON.parse(localStorage.getItem('selectedCategories') || '[]'));
 	const [authorInput, setAuthorInput] = useState(localStorage.getItem('authorInput') || '');
 
-	// Временное состояние для отслеживания изменений
 	const [tempSelectedSource, setTempSelectedSource] = useState<string[]>([...selectedSource]);
 	const [tempSelectedCategories, setTempSelectedCategories] = useState<string[]>([...selectedCategories]);
 	const [tempAuthorInput, setTempAuthorInput] = useState(authorInput);
 
 	const availableCategories = CATEGORIES;
 
-	// Открытие/закрытие попапа
 	const togglePopup = () => {
-		// Сброс временных данных при повторном открытии
+
 		if (!isOpen) {
 			setTempSelectedSource([...selectedSource]);
 			setTempSelectedCategories([...selectedCategories]);
@@ -33,7 +30,6 @@ const Personalization: React.FC = () => {
 		setIsOpen(!isOpen);
 	};
 
-	// Закрытие попапа при клике снаружи
 	const handleClickOutside = (event: MouseEvent) => {
 		if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
 			setIsOpen(false);
@@ -47,26 +43,24 @@ const Personalization: React.FC = () => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		}
 
-		// Удаляем слушатель при размонтировании
 		return () => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
 	}, [isOpen]);
 
-	// Обработка применения предпочтений
 	const handleApplyPreferences = async () => {
-		// Сохранение в локальном хранилище
+
 		localStorage.setItem('selectedSource', JSON.stringify(tempSelectedSource));
 		localStorage.setItem('selectedCategories', JSON.stringify(tempSelectedCategories));
 		localStorage.setItem('authorInput', tempAuthorInput);
 
-		// Обновление текущих предпочтений
 		setSelectedSource(tempSelectedSource);
 		setSelectedCategories(tempSelectedCategories);
 		setAuthorInput(tempAuthorInput);
 
-		// Сохраняем выбранные параметры в состояние персонализации Redux
 		dispatch(setPersonalization({ source: tempSelectedSource.join(','), category: tempSelectedCategories.join(','), author: tempAuthorInput }));
+		dispatch(setLoading(true));
+		setIsOpen(false);
 
 		try {
 			const articles = await fetchAggregatedNews(
@@ -81,20 +75,17 @@ const Personalization: React.FC = () => {
 			dispatch(setArticles(articles));
 		} catch (error) {
 			console.error('Error fetching personalized news:', error);
+		} finally {
+			dispatch(setLoading(false));
 		}
-
-		// Закрыть попап после применения
-		setIsOpen(false);
 	};
 
 	return (
 		<>
-			{/* Бургер-меню для открытия панели */}
 			<button className={styles.burgerButton} onClick={togglePopup}>
 				<div className={styles.bars}></div>
 			</button>
 
-			{/* Панель персонализации */}
 			{isOpen && (
 				<div className={styles.personalizationPopup} ref={popupRef}>
 					<h2>Personalize Your News Feed</h2>

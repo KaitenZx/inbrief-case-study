@@ -1,6 +1,3 @@
-// src/utils/categories.ts
-
-// Унифицированный список категорий для всех API
 export const CATEGORIES = [
 	'world',
 	'politics',
@@ -16,4 +13,3 @@ export const CATEGORIES = [
 	'opinion',
 ];
 
-// Удаляем функцию normalizeCategories, так как она больше не требуется.

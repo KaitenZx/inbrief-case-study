@@ -1,6 +1,5 @@
 @import './mixins';
 
-
 .pagination {
 	display: flex;
 	justify-content: center;
@@ -24,7 +23,7 @@
 }
 
 .pageButton.active {
-	background-color: #007bff;
+	background-color: $main-color;
 	color: #fff;
-	border-color: #007bff;
+	border-color: $main-color;
 }

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setArticles, setPersonalization } from './Store/newsSlice';
-import Personalization from './Components/Personalization';
-import SearchBar from './Components/SearchBar';
-import Filters from './Components/Filters';
-import NewsFeed from './Components/NewsFeed';
+import { setArticles, setLoading, setPersonalization } from './store/newsSlice';
+import Personalization from './components/Personalization';
+import SearchBar from './components/SearchBar';
+import Filters from './components/Filters';
+import NewsFeed from './components/NewsFeed';
 import { fetchAggregatedNews } from './api/aggregateNews';
 import styles from './App.module.scss';
 
@@ -12,39 +12,38 @@ const App: React.FC = () => {
   const [filtersIsOpen, setFiltersIsOpen] = useState(false);
   const dispatch = useDispatch();
 
-  // Логика загрузки персонализированной ленты при запуске
   useEffect(() => {
     const loadPersonalizedFeed = async () => {
-      // Загрузка данных из локального хранилища
+
       const storedSource = JSON.parse(localStorage.getItem('selectedSource') || '[]');
       const storedCategories = JSON.parse(localStorage.getItem('selectedCategories') || '[]');
       const storedAuthor = localStorage.getItem('authorInput') || '';
 
-      // Сохранение в Redux состояния персонализации
       dispatch(setPersonalization({
         source: storedSource.join(','),
         category: storedCategories.join(','),
         author: storedAuthor
       }));
+      dispatch(setLoading(true));
 
       try {
-        // Выполнение запроса для получения статей
         const articles = await fetchAggregatedNews(
-          storedAuthor,                 // Автор или ключевые слова
-          storedCategories.join(','),   // Категории
-          storedAuthor,                 // Автор
-          '', '',                       // Начальная и конечная дата не используются
-          storedSource,                 // Источники
-          1,                            // Номер страницы
-          true                          // Индикатор персонализированного запроса
+          storedAuthor,
+          storedCategories.join(','),
+          storedAuthor,
+          '', '',
+          storedSource,
+          1,
+          true
         );
-        dispatch(setArticles(articles)); // Сохранение статей в Redux
+        dispatch(setArticles(articles));
       } catch (error) {
         console.error('Error fetching personalized news:', error);
+      } finally {
+        dispatch(setLoading(false));
       }
     };
 
-    // Загрузка персонализированной ленты при запуске приложения
     loadPersonalizedFeed();
   }, [dispatch]);
 

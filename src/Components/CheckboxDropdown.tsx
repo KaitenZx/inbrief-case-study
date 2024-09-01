@@ -1,36 +1,38 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from '../styles/CheckboxDropdown.module.scss';
 
 interface CheckboxDropdownProps {
 	label: string;
 	options: string[];
-	selectedOption: string;  // Изменили на одну выбранную опцию
-	onChange: (selected: string) => void;  // Изменили тип на одну строку
+	selectedOption: string;
+	onChange: (selected: string) => void;
+	disabled?: boolean;
 }
 
-const CheckboxDropdown: React.FC<CheckboxDropdownProps> = ({ label, options, selectedOption, onChange }) => {
+const CheckboxDropdown = ({ label, options, selectedOption, onChange, disabled = false }: CheckboxDropdownProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [selected, setSelected] = useState<string>(selectedOption);
-	const dropdownRef = useRef<HTMLDivElement | null>(null); // Реф для отслеживания кликов вне дропдауна
+	const dropdownRef = useRef<HTMLDivElement | null>(null);
 
 	const toggleDropdown = () => {
-		setIsOpen((prev) => !prev);
+		if (!disabled) {
+			setIsOpen((prev) => !prev);
+		}
 	};
 
 	const handleOptionChange = (option: string) => {
 		setSelected(option);
 		onChange(option);
-		setIsOpen(false); // Закрываем дропдаун при выборе
+		setIsOpen(false);
 	};
 
 	const handleReset = () => {
-		setSelected(''); // Сбрасываем выбор
+		setSelected('');
 		onChange('');
-		setIsOpen(false); // Закрываем дропдаун при сбросе
+		setIsOpen(false);
 	};
 
 	const handleClickOutside = (event: MouseEvent) => {
-		// Если клик был вне области дропдауна, закрываем его
 		if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
 			setIsOpen(false);
 		}
@@ -42,26 +44,28 @@ const CheckboxDropdown: React.FC<CheckboxDropdownProps> = ({ label, options, sel
 		} else {
 			document.removeEventListener('mousedown', handleClickOutside);
 		}
-
-		// Удаляем слушатель при размонтировании компонента
 		return () => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
 	}, [isOpen]);
 
 	useEffect(() => {
-		setSelected(selectedOption); // Обновляем состояние, если selectedOption изменяется извне
+		setSelected(selectedOption);
 	}, [selectedOption]);
 
-	// Текст для отображения на кнопке дропдауна
 	const buttonText = selected || label;
 
 	return (
 		<div className={styles.dropdown} ref={dropdownRef}>
-			<button type="button" className={styles.dropdownButton} onClick={toggleDropdown}>
-				{buttonText} {/* Отображаем выбранное значение на кнопке */}
+			<button
+				type="button"
+				className={styles.dropdownButton}
+				onClick={toggleDropdown}
+				disabled={disabled}
+			>
+				{buttonText}
 			</button>
-			{selected && ( // Отображаем кнопку Reset только если что-то выбрано
+			{selected && !disabled && (
 				<button type="button" title="Clear" className={styles.resetButton} onClick={handleReset}>
 					<span title="Clear">✕</span>
 				</button>
@@ -71,9 +75,10 @@ const CheckboxDropdown: React.FC<CheckboxDropdownProps> = ({ label, options, sel
 					{options.map((option) => (
 						<label key={option} className={styles.dropdownItem}>
 							<input
-								type="radio"  // Используем только радиокнопки
+								type="radio"
 								checked={selected === option}
 								onChange={() => handleOptionChange(option)}
+								disabled={disabled}
 							/>
 							{option}
 						</label>

@@ -1,34 +1,35 @@
-// src/components/NewsFeed/NewsFeed.tsx
-
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styles from '../styles/NewsFeed.module.scss';
-import { RootState } from '../Store/store';
+import { RootState } from '../store/store';
 import NewsItem from './NewsItem';
 import Pagination from './Pagination';
 
 const ARTICLES_PER_PAGE = 10;
 
-const NewsFeed: React.FC = () => {
-	const articles = useSelector((state: RootState) => state.news.articles); // Получаем уже отфильтрованные статьи из Redux
-	const [currentPage, setCurrentPage] = useState(1); // Состояние для текущей страницы
-	// Количество статей на странице
+const NewsFeed = () => {
+	const articles = useSelector((state: RootState) => state.news.articles);
+	const [currentPage, setCurrentPage] = useState(1);
+	const isLoading = useSelector((state: RootState) => state.news.isLoading);
 
-	// Расчет статей для отображения на текущей странице
+
 	const currentArticles = useMemo(() => {
 		const startIndex = (currentPage - 1) * ARTICLES_PER_PAGE;
 		const endIndex = startIndex + ARTICLES_PER_PAGE;
 		return articles.slice(startIndex, endIndex);
 	}, [articles, currentPage]);
 
-	// Обработка изменения страницы
+
 	const handlePageChange = (page: number) => {
 		setCurrentPage(page);
-		window.scrollTo({ top: 0, behavior: 'smooth' }); // Скроллим вверх при изменении страницы
+		window.scrollTo({ top: 0, behavior: 'smooth' });
 	};
 
-	// Общее количество страниц
 	const totalPages = Math.ceil(articles.length / ARTICLES_PER_PAGE);
+
+	if (isLoading) {
+		return <div className={styles.loader}></div>;
+	}
 
 	return (
 		<div className={styles.newsFeed}>
@@ -40,7 +41,6 @@ const NewsFeed: React.FC = () => {
 				<p>No articles found based on your filters and preferences.</p>
 			)}
 
-			{/* Отображаем пагинацию только если страниц больше одной */}
 			{totalPages > 1 && (
 				<Pagination
 					currentPage={currentPage}

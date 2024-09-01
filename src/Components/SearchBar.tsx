@@ -1,33 +1,36 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from '../styles/SearchBar.module.scss';
-import { setArticles, setSearchQuery } from '../Store/newsSlice';
+import { setArticles, setLoading, setSearchQuery } from '../store/newsSlice';
 import { fetchAggregatedNews } from '../api/aggregateNews';
-import { RootState } from '../Store/store';
+import { RootState } from '../store/store';
 
-const SearchBar: React.FC = () => {
+const SearchBar = () => {
 	const [query, setQuery] = useState('');
 	const dispatch = useDispatch();
 	const filters = useSelector((state: RootState) => state.news.filters);
 
 	const handleSearch = async () => {
-		if (!query.trim()) return; // Игнорируем пустой запрос
+		if (!query.trim()) return;
 
-		dispatch(setSearchQuery(query)); // Сохраняем ключевые слова в глобальном состоянии
+		dispatch(setSearchQuery(query));
+		dispatch(setLoading(true));
 
 		try {
 			const articles = await fetchAggregatedNews(
-				query,                    // Используем ключевые слова для поиска
-				filters.category,         // Категория из фильтров
-				'',                       // Автор не используется
-				filters.startDate,        // Начальная дата из фильтров
-				filters.endDate,          // Конечная дата из фильтров
-				filters.source ? [filters.source] : [], // Источники из фильтров
-				1                         // Номер страницы
+				query,
+				filters.category,
+				'',
+				filters.startDate,
+				filters.endDate,
+				filters.source ? [filters.source] : [],
+				1
 			);
 			dispatch(setArticles(articles));
 		} catch (error) {
 			console.error('Error fetching news:', error);
+		} finally {
+			dispatch(setLoading(false));
 		}
 	};
 
@@ -39,7 +42,7 @@ const SearchBar: React.FC = () => {
 
 	const handleReset = () => {
 		setQuery('');
-		dispatch(setSearchQuery('')); // Очищаем ключевые слова в глобальном состоянии
+		dispatch(setSearchQuery(''));
 	};
 
 	return (
@@ -53,7 +56,7 @@ const SearchBar: React.FC = () => {
 					onKeyDown={handleKeyDown}
 					className={styles.input}
 				/>
-				{query && ( // Отображаем кнопку Reset только если что-то введено
+				{query && (
 					<button type="button" title="Clear" className={styles.resetButton} onClick={handleReset}>
 						<span title="Clear">✕</span>
 					</button>

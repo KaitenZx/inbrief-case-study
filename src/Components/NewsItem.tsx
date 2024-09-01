@@ -1,14 +1,11 @@
-// src/components/NewsItem/NewsItem.tsx
-
-import React from 'react';
 import styles from '../styles/NewsItem.module.scss';
-import { NewsArticle } from '../api/types';
+import { NewsArticle } from '../utils/types';
 
 interface NewsItemProps {
 	article: NewsArticle;
 }
 
-const NewsItem: React.FC<NewsItemProps> = ({ article }) => {
+const NewsItem = ({ article }: NewsItemProps) => {
 	const {
 		source,
 		author,
@@ -22,19 +19,19 @@ const NewsItem: React.FC<NewsItemProps> = ({ article }) => {
 
 	return (
 		<div className={styles.newsItem}>
-			{urlToImage && <img src={urlToImage} alt={title} className={styles.image} />} {/* Изображение статьи */}
+			{urlToImage && <img src={urlToImage} alt={title} className={styles.image} />}
 
 			<div className={styles.content}>
 				<h2 className={styles.title}>
-					<a href={url} target="_blank" rel="noopener noreferrer">{title}</a> {/* Заголовок статьи */}
+					<a href={url} target="_blank" rel="noopener noreferrer">{title}</a>
 				</h2>
 
-				{description && <p className={styles.description}>{description}</p>} {/* Описание статьи */}
+				{description && <p className={styles.description}>{description}</p>}
 
-				{author && <p className={styles.author}>By: {author}</p>} {/* Имя автора */}
-				<p className={styles.source}>{source} - {new Date(publishedAt).toLocaleDateString()}</p> {/* Источник и дата */}
+				{author && <p className={styles.author}>By: {author}</p>}
+				<p className={styles.source}>{source} - {new Date(publishedAt).toLocaleDateString()}</p>
 
-				{category && <span className={styles.category}>{category}</span>} {/* Категория статьи */}
+				{category && <span className={styles.category}>{category}</span>}
 			</div>
 		</div>
 	);

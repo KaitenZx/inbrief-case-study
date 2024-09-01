@@ -1,5 +1,6 @@
 @mixin respond-to($breakpoints...) {
 	@each $breakpoint in $breakpoints {
+
 		@if $breakpoint ==small {
 			@media (max-width: 480px) {
 				@content;
@@ -13,3 +14,5 @@
 		}
 	}
 }
+
+$main-color: #007bff;

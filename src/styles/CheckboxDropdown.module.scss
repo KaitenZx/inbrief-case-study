@@ -1,12 +1,13 @@
-// src/components/CheckboxDropdown/CheckboxDropdown.module.scss
-
-
 @import './mixins';
 
 .dropdown {
 	position: relative;
 	display: inline-block;
 	width: 130px;
+
+	@include respond-to(small) {
+		max-width: 130px;
+	}
 }
 
 .dropdownButton {
@@ -25,7 +26,18 @@
 	flex-shrink: 0;
 
 	&:hover {
-		border-color: #007bff;
+		border-color: $main-color;
+	}
+}
+
+.dropdownButton[disabled] {
+	background-color: #ddd;
+	color: #aaa;
+	cursor: not-allowed;
+	opacity: 0.7;
+
+	&:hover {
+		border-color: grey;
 	}
 }
 
@@ -39,7 +51,6 @@
 	border-radius: 4px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	z-index: 10;
-	//padding: 10px 0;
 	max-height: 200px;
 	overflow-y: auto;
 	font-size: 12px;
@@ -58,7 +69,7 @@
 	}
 
 	input {
-		margin-right: 10px;
+		margin-right: 4px;
 	}
 }
 
@@ -82,15 +93,4 @@
 	&:hover {
 		color: darkgrey;
 	}
-}
-
-/* Адаптивные стили для мобильных устройств */
-@media (max-width: 768px) {
-	.dropdown {
-		width: 100%;
-	}
-
-	//.dropdownButton {
-	//	font-size: 12px;
-	//}
 }
