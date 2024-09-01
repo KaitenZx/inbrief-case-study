@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from '../styles/Filters.module.scss';
-import { RootState } from '../store/store';
-import { setArticles, setFilters, setLoading } from '../store/newsSlice';
+import { RootState } from '../pstore/store';
+import { setArticles, setFilters, setLoading } from '../pstore/newsSlice';
 import { CATEGORIES } from '../utils/categories';
 import { fetchAggregatedNews } from '../api/aggregateNews';
 import CheckboxDropdown from './CheckboxDropdown';

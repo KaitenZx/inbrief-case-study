@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setArticles, setLoading, setPersonalization } from './store/newsSlice';
-import Personalization from './components/Personalization';
-import SearchBar from './components/SearchBar';
-import Filters from './components/Filters';
-import NewsFeed from './components/NewsFeed';
+import { setArticles, setLoading, setPersonalization } from './pstore/newsSlice';
+import Personalization from './pcomponents/Personalization';
+import SearchBar from './pcomponents/SearchBar';
+import Filters from './pcomponents/Filters';
+import NewsFeed from './pcomponents/NewsFeed';
 import { fetchAggregatedNews } from './api/aggregateNews';
 import styles from './App.module.scss';
 

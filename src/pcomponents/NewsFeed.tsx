@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styles from '../styles/NewsFeed.module.scss';
-import { RootState } from '../store/store';
+import { RootState } from '../pstore/store';
 import NewsItem from './NewsItem';
 import Pagination from './Pagination';
 

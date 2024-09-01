@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from '../styles/SearchBar.module.scss';
-import { setArticles, setLoading, setSearchQuery } from '../store/newsSlice';
+import { setArticles, setLoading, setSearchQuery } from '../pstore/newsSlice';
 import { fetchAggregatedNews } from '../api/aggregateNews';
-import { RootState } from '../store/store';
+import { RootState } from '../pstore/store';
 
 const SearchBar = () => {
 	const [query, setQuery] = useState('');
