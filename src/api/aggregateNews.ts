@@ -34,9 +34,9 @@ export const fetchAggregatedNews = async (
 			allArticles = allArticles.concat(guardianArticles);
 		}
 
-		if (sources.length === 0 || sources.includes('nyt')) {
-			const nytArticles = await fetchNewsFromNYT(keywords, categories, fromDate, toDate, page);
-			allArticles = allArticles.concat(nytArticles);
+		if (sources.length === 0 || sources.includes('NYT')) {
+			const NYTArticles = await fetchNewsFromNYT(keywords, categories, fromDate, toDate, page);
+			allArticles = allArticles.concat(NYTArticles);
 		}
 
 		const uniqueArticles = Array.from(new Set(allArticles.map((a) => a.url))).map((url) => {

@@ -58,6 +58,8 @@ const App: React.FC = () => {
           <Personalization />
           <SearchBar />
           <button className={styles.button} onClick={showFilters}>Filters</button>
+          <div className={styles.title}>IN BRIEF</div>
+
         </div>
         {filtersIsOpen && <Filters />}
       </div>

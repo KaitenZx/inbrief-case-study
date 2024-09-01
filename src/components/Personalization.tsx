@@ -93,7 +93,7 @@ const Personalization: React.FC = () => {
 						<div>
 							<h3>Sources</h3>
 							<div className={styles.checkboxGroup}>
-								{['newsapi', 'guardian', 'nyt'].map((source) => (
+								{['newsapi', 'guardian', 'NYT'].map((source) => (
 									<label key={source}>
 										<input
 											type="checkbox"

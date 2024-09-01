@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { NewsArticle } from '../utils/types';
 
-const NYT_API_BASE_URL = 'https://api.nytimes.com/svc/search/v2';
+const NYT_API_BASE_URL = 'https://api.NYTimes.com/svc/search/v2';
 const NYT_API_KEY = process.env.REACT_APP_NYT_API_KEY;
 
 export const fetchNewsFromNYT = async (
@@ -31,7 +31,7 @@ export const fetchNewsFromNYT = async (
 			description: article.snippet,
 			url: article.web_url,
 			urlToImage: article.multimedia?.find((media: any) => media.subtype === 'xlarge')?.url
-				? `https://www.nytimes.com/${article.multimedia.find((media: any) => media.subtype === 'xlarge').url}`
+				? `https://www.NYTimes.com/${article.multimedia.find((media: any) => media.subtype === 'xlarge').url}`
 				: '',
 			publishedAt: article.pub_date,
 			content: article.lead_paragraph,

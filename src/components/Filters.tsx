@@ -60,7 +60,7 @@ const Filters = () => {
 		<div className={styles.filters}>
 			<CheckboxDropdown
 				label="Source"
-				options={['newsapi', 'guardian', 'nyt']}
+				options={['newsapi', 'guardian', 'NYT']}
 				selectedOption={selectedSource}
 				onChange={setSelectedSource}
 			/>

@@ -1,4 +1,9 @@
 @import './styles/mixins';
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
+
+
+
+
 
 .container {
   display: flex;
@@ -9,8 +14,23 @@
 }
 
 
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-family: 'Cinzel', serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #000;
+  text-align: center;
 
+  @include respond-to(medium, small) {
+    display: none;
+  }
 
+}
 
 .header {
   position: sticky;

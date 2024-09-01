@@ -1,6 +1,32 @@
-# News Aggregator Application
+#  InBrief News Aggregator Application
 
-This project is a news aggregator that combines news from various sources and allows users to personalize their news feed.
+Welcome to the InBrief Case Study project! This application aggregates news articles from multiple sources to provide a personalized news feed experience. With customizable filters and a user-friendly interface, you can easily stay updated on the topics that matter most to you.
+Happy testing!
+
+
+## Features
+
+- Aggregate news from multiple sources: NewsAPI, The Guardian, and The New York Times.
+- Personalize your news feed based on preferred sources, categories, and authors.
+- Search functionality to find specific news articles.
+- Easy filtering by category, source, and date range.
+- Responsive design for seamless experience on all devices.
+
+## Usage
+
+### Personalization
+
+Customize your news feed by selecting preferred sources, categories, and authors from the Personalization panel. Your choices will be saved locally, so your preferences are retained even after you close the app.
+
+### Searching
+
+Use the search bar to find articles based on keywords. The search results will be filtered according to your selected categories, sources, and date range.
+
+### Filtering
+
+You can refine your news feed by applying filters for specific sources, categories, and date ranges. The filters are easily accessible from the Filters panel.
+
+
 
 ## Getting Started
 
@@ -12,7 +38,7 @@ You will need API keys from the following services:
 
 - **NewsAPI**: [Get your API key here](https://newsapi.org/)
 - **The Guardian API**: [Get your API key here](https://open-platform.theguardian.com/access/)
-- **The New York Times API**: [Get your API key here](https://developer.nytimes.com/get-started)
+- **The New York Times API**: [Get your API key here](https://developer.NYTimes.com/get-started)
 
 ### Step 2: Create a `.env` File
 
@@ -23,10 +49,10 @@ You will need API keys from the following services:
     ```env
     REACT_APP_NEWSAPI_KEY=your_news_api_key_here
     REACT_APP_GUARDIAN_API_KEY=your_guardian_api_key_here
-    REACT_APP_NYT_API_KEY=your_nyt_api_key_here
+    REACT_APP_NYT_API_KEY=your_NYT_api_key_here
     ```
 
-    Replace `your_news_api_key_here`, `your_guardian_api_key_here`, and `your_nyt_api_key_here` with your actual API keys.
+    Replace `your_news_api_key_here`, `your_guardian_api_key_here`, and `your_NYT_api_key_here` with your actual API keys.
 
 ## Running the Application in a Docker Container
 
