@@ -68,8 +68,8 @@ Ensure you have the following installed on your machine:
 ### Clone the Repository:
 
 ```bash
-git clone https://github.com/your-username/your-repository.git
-cd your-repository
+git clone https://github.com/KaitenZx/inbrief-case-study.git
+cd inbrief-case-study
 ```
 
 
@@ -103,8 +103,9 @@ http://localhost:3000
 ### Stopping the Application:
 
 To stop the application, press Ctrl + C in the terminal where docker-compose up is running, or use:
-
+```bash
 docker-compose down
+```
 This command will stop all running containers associated with the application and remove them.
 
 
