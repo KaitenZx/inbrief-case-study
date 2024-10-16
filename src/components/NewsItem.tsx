@@ -1,5 +1,5 @@
+import { NewsArticle } from '../store/newsSlice';
 import styles from '../styles/NewsItem.module.scss';
-import { NewsArticle } from '../utils/types';
 
 interface NewsItemProps {
 	article: NewsArticle;

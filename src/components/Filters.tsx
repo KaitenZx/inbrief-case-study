@@ -2,14 +2,15 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from '../styles/Filters.module.scss';
 import { RootState } from '../store/store';
-import { setArticles, setFilters, setLoading } from '../store/newsSlice';
+import { setArticles, setLoading } from '../store/newsSlice';
 import { CATEGORIES } from '../utils/categories';
 import { fetchAggregatedNews } from '../api/aggregateNews';
 import CheckboxDropdown from './CheckboxDropdown';
+import { setFilters } from '../store/filtersSlice';
 
 const Filters = () => {
 	const dispatch = useDispatch();
-	const filters = useSelector((state: RootState) => state.news.filters);
+	const filters = useSelector((state: RootState) => state.filters);
 	const searchQuery = useSelector((state: RootState) => state.news.query);
 
 	const [selectedCategory, setSelectedCategory] = useState(filters.category || '');

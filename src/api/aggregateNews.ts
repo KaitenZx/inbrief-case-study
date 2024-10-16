@@ -3,7 +3,7 @@
 import { fetchNewsFromNewsAPI, fetchTopHeadlinesFromNewsAPI } from './newsApi';
 import { fetchNewsFromGuardian } from './guardianApi';
 import { fetchNewsFromNYT } from './nytApi';
-import type { NewsArticle } from '../utils/types';
+import { NewsArticle } from '../store/newsSlice';
 
 export const fetchAggregatedNews = async (
 	keywords: string,

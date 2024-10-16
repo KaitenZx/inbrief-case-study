@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { NewsArticle } from '../utils/types';
+import { NewsArticle } from '../store/newsSlice';
 
 const GUARDIAN_API_BASE_URL = 'https://content.guardianapis.com';
 const GUARDIAN_API_KEY = process.env.REACT_APP_GUARDIAN_API_KEY;

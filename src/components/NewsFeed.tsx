@@ -4,11 +4,12 @@ import styles from '../styles/NewsFeed.module.scss';
 import { RootState } from '../store/store';
 import NewsItem from './NewsItem';
 import Pagination from './Pagination';
+import { selectAllArticles } from '../store/newsSlice';
 
 const ARTICLES_PER_PAGE = 10;
 
 const NewsFeed = () => {
-	const articles = useSelector((state: RootState) => state.news.articles);
+	const articles = useSelector((state: RootState) => selectAllArticles(state));
 	const [currentPage, setCurrentPage] = useState(1);
 	const isLoading = useSelector((state: RootState) => state.news.isLoading);
 
@@ -51,5 +52,7 @@ const NewsFeed = () => {
 		</div>
 	);
 };
+
+
 
 export default NewsFeed;

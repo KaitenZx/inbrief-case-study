@@ -8,7 +8,7 @@ import { RootState } from '../store/store';
 const SearchBar = () => {
 	const [query, setQuery] = useState('');
 	const dispatch = useDispatch();
-	const filters = useSelector((state: RootState) => state.news.filters);
+	const filters = useSelector((state: RootState) => state.filters);
 
 	const handleSearch = async () => {
 		if (!query.trim()) return;

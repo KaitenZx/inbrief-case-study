@@ -1,5 +1,6 @@
+'newsApi.ts'
 import axios from 'axios';
-import type { NewsArticle } from '../utils/types';
+import { NewsArticle } from '../store/newsSlice';
 
 const NEWS_API_BASE_URL = 'https://newsapi.org/v2';
 const NEWS_API_KEY = process.env.REACT_APP_NEWSAPI_KEY;

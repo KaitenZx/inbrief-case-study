@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { NewsArticle } from '../utils/types';
+import { NewsArticle } from '../store/newsSlice';
 
 const NYT_API_BASE_URL = 'https://api.NYTimes.com/svc/search/v2';
 const NYT_API_KEY = process.env.REACT_APP_NYT_API_KEY;
